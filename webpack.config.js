@@ -2,10 +2,10 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  devtool: '#source-map',
   entry: [
     'webpack-hot-middleware/client',
-    './index'
+    './src'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
@@ -17,18 +17,20 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin()
   ],
+      resolve: {
+          root: path.join(__dirname, 'src')
+      },
   module: {
     loaders: [{
       test: /\.js$/,
       loaders: ['babel'],
-      exclude: /node_modules/,
-      include: __dirname
-    },
-    {
+      exclude: [/node_modules/, /flycheck/],
+      include: [path.join(__dirname, 'src'), path.join(__dirname, 'spec')]
+    }, {
       test: /\.json$/,
       loaders: ['json'],
       exclude: /node_modules/,
-      include: __dirname
+      include: [path.join(__dirname, 'src'), path.join(__dirname, 'spec')]
     }]
   }
 };
